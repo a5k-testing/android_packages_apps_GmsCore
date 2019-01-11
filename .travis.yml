@@ -1,11 +1,15 @@
 language: android
-sudo: false
+jdk: oraclejdk8
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.android/build-cache/"
+git:
+  depth: 3
 script:
-  - jdk_switcher use oraclejdk8
-  - echo sdk.dir $ANDROID_HOME > local.properties
-  - export TERM=dumb
-  - export JAVA_OPTS="-XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError -Xmx2048m"
-  - ./gradlew assemble
+- export JAVA_OPTS="-XX:+CMSClassUnloadingEnabled -XX:+HeapDumpOnOutOfMemoryError -Xmx2048m"
+- ./gradlew build
 android:
   components:
   - tools
@@ -13,5 +17,22 @@ android:
   - build-tools-27.0.3
   - android-27
   - extra-android-m2repository
-before_install:
- - yes | sdkmanager "platforms;android-27"
+before_cache:
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.bin
+- rm -f  $HOME/.gradle/caches/*/fileHashes/fileHashes.lock
+- rm -f  $HOME/.gradle/caches/journal-1/file-access.bin
+- rm -f  $HOME/.gradle/caches/journal-1/journal-1.lock
+- rm -f  $HOME/.gradle/caches/user-id.txt
+- rm -f  $HOME/.gradle/caches/user-id.txt.lock
+deploy:
+  provider: releases
+  api_key:
+    secure: BNZPZ7Bq5bYmENtERHadbZdHrFgdCcdS4OrUrRUd3r3UyMqe3vZAL0459W7OOrF4aCT/Bjhns+IT4VD0jgjck7bjK+LemjP7TPqRo/fPuIqImE9sIJqtD/pSi2LCpDatqNyTdJMvN7NfnlqCR/ftdQLo5KXsA2C+X4sX9es+5rMuAMmV2QBnf6cmsbYPAHA1DGNGEK/fOqteCwMBes9FGwRAYYbS8X2YnALgvh5x/AMhYusME4p1LITUNzQ62wC5im+lRVImYtbsyqWBLQSANVmeCL7i1J0o/9zpPSr1HDMjOuL7f6P+spQn1jD+RmXi7Jm9gOO80yfXw++wSf+WA2M3YRt+vQYXBE5D/mQEjGVhLwe+uPdj566x42ALVeDl3AWuX0qYL2S8rIqOV2n0IVE/1xGkxN+ktDsM3H076vgfIHZ6aNWITkSE074bUGpHvHRapXIgZrZznanu/YIev7b7FaAgYHaWHqCA5Yw7qUp2HkCFtkyCVX5T0FPBDMO/DQ5CdH6BqXjxw+JGjDbs8uaDRVSUK5nNTPzKpLfshYiZPANEPyej/mfB5kpDwrowUDpjMbBEQsLasuK0wKe94eKIPc1HWIAlAri7o8tDmoauHrcRRmdbvxx8qGHAVzpTHBU42+e2yfNMMDWyDfGglFRlaJ31/fQwOe/CUnmiSII=
+  file_glob: true
+  file: play-services-core/build/outputs/apk/release/play-services-core-*.apk
+  skip_cleanup: true
+  on:
+    repo: a5k-testing/android_packages_apps_GmsCore
+    #tags: true

@@ -206,15 +206,17 @@
             android:permission="com.google.android.c2dm.permission.RECEIVE">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.REGISTER"/>
-
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-            <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.UNREGISTER"/>
 
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </service>
+
+        <receiver android:name="org.microg.gms.gcm.PushRegisterReceiver">
+            <intent-filter>
+                <action android:name="com.google.iid.TOKEN_REQUEST"/>
+            </intent-filter>
+        </receiver>
 
         <service android:name="org.microg.gms.gcm.McsService"/>
 
@@ -492,6 +494,20 @@
 
         <!-- Other -->
 
+        <provider
+            android:name="org.microg.gms.phenotype.ConfigurationProvider"
+            android:authorities="com.google.android.gms.phenotype"
+            android:exported="true"/>
+
+        <service
+            android:name="org.microg.gms.measurement.MeasurementBrokerService"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.measurement.START"/>
+
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </service>
         <service android:name="org.microg.gms.mdm.NetworkQualityService">
             <intent-filter>
                 <action android:name="com.google.android.gms.mdm.services.START"/>
