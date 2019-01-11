@@ -34,3 +34,14 @@ before_cache:
 - rm -f  $HOME/.gradle/caches/journal-1/journal-1.lock
 - rm -f  $HOME/.gradle/caches/user-id.txt
 - rm -f  $HOME/.gradle/caches/user-id.txt.lock
+
+deploy:
+  provider: releases
+  #api_key:
+    #secure: 
+  #file_glob: true
+  file: play-services-core/build/outputs/apk/release/play-services-core-*.apk
+  skip_cleanup: true
+  #on:
+    #repo: 
+    #tags: true
