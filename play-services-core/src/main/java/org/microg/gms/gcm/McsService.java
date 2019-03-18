@@ -507,7 +507,7 @@ public class McsService extends Service implements Handler.Callback {
                 // ToDO: Find out userID
                 if(mDeviceIdleController != null) {
                     try {
-                        mDeviceIdleController.addPowerSaveTempWhitelistApp(resolveInfo.activityInfo.packageName, 10000, 0, "GCM Push");
+                        mDeviceIdleController.addPowerSaveTempWhitelistApp(resolveInfo.activityInfo.packageName, 10000, msg.device_user_id(), "GCM Push");
                     } catch (android.os.RemoteException e) {
                         e.printStackTrace();
                     }
